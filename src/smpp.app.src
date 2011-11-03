@@ -1,0 +1,13 @@
+{application, smpp,
+ [
+  {description, "SMPP Application wrapping OSERL"},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  common_lib
+                 ]},
+  {mod, { smpp_app, []}},
+  {env, []}
+ ]}.
