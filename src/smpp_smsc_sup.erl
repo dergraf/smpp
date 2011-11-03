@@ -2,24 +2,24 @@
 -behaviour(supervisor).
 
 %% interface
--export([start/0,
+-export([start/1,
          start_child/1]).
 
 %% internal exports
--export([start_link/1,
+-export([start_link/2,
          init/1]).
 
-start() ->
-    smpp_sup:start_child(?MODULE, ?MODULE).
+start(SmscMod) ->
+    smpp_sup:start_child(?MODULE, ?MODULE, SmscMod).
 
 start_child(T) ->
     supervisor:start_child(?MODULE, [T]).
 
-start_link(Name) ->
-    supervisor:start_link({local, Name}, ?MODULE, []).
+start_link(Name, SmscMod) ->
+    supervisor:start_link({local, Name}, ?MODULE, [SmscMod]).
 
-init([]) ->
-    Mod = smpp_smsc,
+init([SmscMod]) ->
+    Mod = SmscMod,
     Flags = {simple_one_for_one, 0, 1},
     ChildSpec = {Mod,
                  {Mod, start_link, []},

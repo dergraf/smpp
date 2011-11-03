@@ -4,31 +4,22 @@
 
 %% API
 -export([start_link/0,
-         start_child/2]).
+         start_child/3]).
 
 %% Supervisor callbacks
 -export([init/1]).
 
-
-%% ===================================================================
-%% API functions
-%% ===================================================================
-%%
 start_link() ->
     supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
-start_child(Name, Module) ->
+start_child(Name, Module, ChildMod) ->
     Spec = {Name,
-        {Module, start_link, [Name]},
+        {Module, start_link, [Name, ChildMod]},
         permanent,
         1000,
         supervisor,
         [Module]},
     supervisor:start_child(?MODULE, Spec).
-
-%% ===================================================================
-%% Supervisor callbacks
-%% ===================================================================
 
 init([]) ->
     Flags = {one_for_one, 0, 1},
