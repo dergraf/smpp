@@ -5,8 +5,7 @@
   {registered, []},
   {applications, [
                   kernel,
-                  stdlib,
-                  common_lib
+                  stdlib
                  ]},
   {mod, { smpp_app, []}},
   {env, []}
