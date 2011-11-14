@@ -3,7 +3,8 @@
 
 %% interface
 -export([start/1,
-         start_child/1]).
+         start_child/1,
+         stop_child/1]).
 
 %% internal exports
 -export([start_link/2,
@@ -17,6 +18,9 @@ start_child(T) ->
 
 start_link(Name, SmscMod) ->
     supervisor:start_link({local, Name}, ?MODULE, [SmscMod]).
+
+stop_child(Pid) ->
+    ok = supervisor:terminate_child(?MODULE, Pid).
 
 init([SmscMod]) ->
     Mod = SmscMod,
